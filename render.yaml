@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: flask-api
+    name: goalstats-api
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn goalstats.api
+    startCommand: gunicorn goalstats.api-fullstack
     envVars:
       - key: FOOTBALL_API_TOKEN
         value: YOUR_TOKEN
