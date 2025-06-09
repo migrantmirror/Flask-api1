@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 flask
@@ -6,12 +7,15 @@ requests
 gunicorn
 numpy
 =======
+=======
+>>>>>>> 8c3d65ae0922413aee0b4ba5e5dc3352174691a6
 blinker==1.9.0
 certifi==2025.4.26
 charset-normalizer==3.4.2
 click==8.2.1
 colorama==0.4.6
 Flask==3.1.1
+gunicorn
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
@@ -21,4 +25,3 @@ python-dotenv==1.1.0
 requests==2.32.4
 urllib3==2.4.0
 Werkzeug==3.1.3
->>>>>>> 81a53ba (Update requirements.txt)
