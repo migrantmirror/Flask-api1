@@ -1,18 +1,24 @@
 from flask import Flask, request, jsonify
 import requests
 import os
-from dotenv import load_dotenv
 import math
 import numpy as np
+from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
 
+# Load API keys
 FOOTBALL_API_TOKEN = os.getenv("FOOTBALL_API_TOKEN")
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 
+# Validate API keys on start
+if not FOOTBALL_API_TOKEN or not WEATHER_API_KEY:
+    raise EnvironmentError("Missing one or more required API keys in .env")
+
+# API-Football headers
 headers = {
     "X-RapidAPI-Key": FOOTBALL_API_TOKEN,
     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
@@ -25,12 +31,14 @@ def poisson_prob(lmbda, k):
 def kelly_criterion(prob, odds):
     return max(0, (prob * (odds - 1) - (1 - prob)) / (odds - 1))
 
-# --- API Endpoints ---
+# --- Endpoints ---
 
 @app.route("/api/standings")
 def standings():
     league_id = request.args.get("league_id")
     season = request.args.get("season", "2023")
+    if not league_id:
+        return jsonify({"error": "Missing league_id"}), 400
     url = f"https://api-football-v1.p.rapidapi.com/v3/standings?league={league_id}&season={season}"
     res = requests.get(url, headers=headers)
     return jsonify(res.json())
@@ -38,6 +46,8 @@ def standings():
 @app.route("/api/lineups")
 def lineups():
     match_id = request.args.get("match_id")
+    if not match_id:
+        return jsonify({"error": "Missing match_id"}), 400
     url = f"https://api-football-v1.p.rapidapi.com/v3/lineups?fixture={match_id}"
     res = requests.get(url, headers=headers)
     return jsonify(res.json())
@@ -45,6 +55,8 @@ def lineups():
 @app.route("/api/live")
 def live():
     match_id = request.args.get("match_id")
+    if not match_id:
+        return jsonify({"error": "Missing match_id"}), 400
     url = f"https://api-football-v1.p.rapidapi.com/v3/fixtures?id={match_id}"
     res = requests.get(url, headers=headers)
     return jsonify(res.json())
@@ -52,6 +64,8 @@ def live():
 @app.route("/api/odds_detail")
 def odds_detail():
     match_id = request.args.get("match_id")
+    if not match_id:
+        return jsonify({"error": "Missing match_id"}), 400
     url = f"https://api-football-v1.p.rapidapi.com/v3/odds?fixture={match_id}"
     res = requests.get(url, headers=headers)
     return jsonify(res.json())
@@ -59,13 +73,15 @@ def odds_detail():
 @app.route("/api/history")
 def history():
     team_id = request.args.get("team_id")
+    if not team_id:
+        return jsonify({"error": "Missing team_id"}), 400
     url = f"https://api-football-v1.p.rapidapi.com/v3/fixtures?team={team_id}&last=10"
     res = requests.get(url, headers=headers)
     return jsonify(res.json())
 
 @app.route("/api/weather")
 def weather():
-    city = request.args.get("city")
+    city = request.args.get("city", "London")
     url = f"http://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}"
     res = requests.get(url)
     return jsonify(res.json())
@@ -80,9 +96,7 @@ def predict():
         away_odds = float(request.args.get("away_odds", 3.3))
 
         max_goals = 5
-        prob_home_win = 0
-        prob_draw = 0
-        prob_away_win = 0
+        prob_home_win, prob_draw, prob_away_win = 0, 0, 0
 
         for h in range(max_goals):
             for a in range(max_goals):
@@ -101,7 +115,7 @@ def predict():
         value_flags = [prob * o > 1 for prob, o in zip(prob_list, odds_list)]
 
         suggestions = [v for v, f in zip(value_bets, value_flags) if f]
-        stakes = [kelly_criterion(prob, odds) for prob, odds in zip(prob_list, odds_list)]
+        stakes = [round(kelly_criterion(prob, odds), 3) for prob, odds in zip(prob_list, odds_list)]
 
         return jsonify({
             "prob_home": round(prob_home_win, 2),
@@ -114,5 +128,6 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+# --- Production Entry Point ---
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
