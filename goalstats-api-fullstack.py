@@ -31,7 +31,12 @@ def poisson_prob(lmbda, k):
 def kelly_criterion(prob, odds):
     return max(0, (prob * (odds - 1) - (1 - prob)) / (odds - 1))
 
-# --- Endpoints ---
+# --- Default Route ---
+@app.route('/')
+def home():
+    return jsonify({"message": "Welcome to GoalStats API! Go to /api/* for endpoints."})
+
+# --- API Endpoints ---
 
 @app.route("/api/standings")
 def standings():
