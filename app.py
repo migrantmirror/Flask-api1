@@ -11,42 +11,54 @@ import logging
 from dotenv import load_dotenv
 from sklearn.linear_model import LogisticRegression
 import numpy as np
+from flask_cors import CORS
+import atexit
 
-# Load env variables
+# Load env variables from .env file
 load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
-api = Api(app, version="1.0", title="GoalStats API",
-          description="Advanced Football Prediction API with multiple markets and ML",
-          doc="/docs")  # Swagger UI
+CORS(app)  # Enable CORS for all routes
 
-# Rate limiter
+api = Api(
+    app,
+    version="1.0",
+    title="GoalStats API",
+    description="Advanced Football Prediction API with multiple markets and ML",
+    doc="/docs"  # Swagger UI path
+)
+
+# Rate limiter setup: limit requests per IP
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["100 per hour"])
 
-# Cache config
+# Cache config (in-memory simple cache)
 cache = Cache(app, config={"CACHE_TYPE": "SimpleCache", "CACHE_DEFAULT_TIMEOUT": 300})
 
-# API Keys (validate on startup)
+# Required API Keys loaded from environment
 FOOTBALL_API_TOKEN = os.getenv("FOOTBALL_API_TOKEN")
 ODDS_API_KEY = os.getenv("ODDS_API_KEY")
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+
 missing_keys = []
-if not FOOTBALL_API_TOKEN: missing_keys.append("FOOTBALL_API_TOKEN")
-if not ODDS_API_KEY: missing_keys.append("ODDS_API_KEY")
-if not WEATHER_API_KEY: missing_keys.append("WEATHER_API_KEY")
+if not FOOTBALL_API_TOKEN:
+    missing_keys.append("FOOTBALL_API_TOKEN")
+if not ODDS_API_KEY:
+    missing_keys.append("ODDS_API_KEY")
+if not WEATHER_API_KEY:
+    missing_keys.append("WEATHER_API_KEY")
 if missing_keys:
     raise EnvironmentError(f"Missing required API keys: {', '.join(missing_keys)}")
 
-# Headers
+# Headers for football API requests (example)
 football_headers = {
     "X-RapidAPI-Key": FOOTBALL_API_TOKEN,
     "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
 }
 
-# Directory to save/load models
+# Directory to save/load ML models
 MODEL_DIR = "./models"
 os.makedirs(MODEL_DIR, exist_ok=True)
 
@@ -56,7 +68,8 @@ def poisson_prob(lmbda, k):
     return (lmbda ** k * math.exp(-lmbda)) / math.factorial(k)
 
 def kelly_criterion(prob, odds):
-    if odds <= 1: return 0
+    if odds <= 1:
+        return 0
     return max(0, (prob * (odds - 1) - (1 - prob)) / (odds - 1))
 
 def implied_prob(odds):
@@ -70,31 +83,28 @@ def validate_args(*args):
 
 def load_training_data(market):
     """
-    Placeholder function to simulate loading historical labeled data
-    for different markets. Return X (features), y (labels).
+    Placeholder to simulate loading historical labeled data per market.
+    Replace with actual data loading.
     """
-    # You must replace this with actual data loading code
     logging.info(f"Loading training data for market '{market}'")
     if market == "btts":
-        # Simulate BTTS data: features= [home_avg_goals, away_avg_goals], label=0/1
-        X = np.array([[1.2,1.3],[2.0,0.5],[0.5,0.7],[1.8,1.9],[0.3,0.2]])
-        y = np.array([1,1,0,1,0])
+        X = np.array([[1.2, 1.3], [2.0, 0.5], [0.5, 0.7], [1.8, 1.9], [0.3, 0.2]])
+        y = np.array([1, 1, 0, 1, 0])
     elif market == "over25":
-        X = np.array([[1.2,1.3],[2.0,0.5],[0.5,0.7],[1.8,1.9],[0.3,0.2]])
-        y = np.array([1,1,0,1,0])
-    else:  # Default for 1X2
-        X = np.array([[1.2,1.3],[2.0,0.5],[0.5,0.7],[1.8,1.9],[0.3,0.2]])
-        y = np.array([0,2,1,0,1])  # 0=home win, 1=draw, 2=away win
+        X = np.array([[1.2, 1.3], [2.0, 0.5], [0.5, 0.7], [1.8, 1.9], [0.3, 0.2]])
+        y = np.array([1, 1, 0, 1, 0])
+    else:  # Default for 1X2 market
+        X = np.array([[1.2, 1.3], [2.0, 0.5], [0.5, 0.7], [1.8, 1.9], [0.3, 0.2]])
+        y = np.array([0, 2, 1, 0, 1])  # 0=home win, 1=draw, 2=away win
     return X, y
 
 def train_model_for_market(market):
     """
-    Train and save a sklearn logistic regression model for the given market.
+    Train and save sklearn logistic regression model for a market.
     """
     X, y = load_training_data(market)
     logging.info(f"Training model for {market} with data X shape {X.shape} and y shape {y.shape}")
 
-    # For simplicity, binary classification for btts and over25, multiclass for 1X2
     if market in ["btts", "over25"]:
         model = LogisticRegression()
     else:
@@ -108,24 +118,19 @@ def train_model_for_market(market):
 
 def predict_market(market, features):
     """
-    Load model and predict probabilities/stakes for given market and features
-    features: list or np.array of features
+    Load model and predict probabilities and recommended stakes for given features.
     """
     model_path = os.path.join(MODEL_DIR, f"{market}_model.joblib")
     if not os.path.exists(model_path):
-        # Auto-train if model missing
         train_model_for_market(market)
 
     model = joblib.load(model_path)
     features = np.array(features).reshape(1, -1)
     proba = model.predict_proba(features)[0]
-
     logging.info(f"Predicted probabilities for {market}: {proba}")
 
-    # Example response formatting per market:
     if market == "btts":
-        # proba: [No, Yes]
-        value_bet = "Yes" if proba[1] * 2.0 > 1 else "No"  # example odds=2.0
+        value_bet = "Yes" if proba[1] * 2.0 > 1 else "No"
         stake = kelly_criterion(proba[1], 2.0)
         return {
             "market": market,
@@ -135,7 +140,6 @@ def predict_market(market, features):
             "recommended_stake": round(stake, 3)
         }
     elif market == "over25":
-        # proba: [No, Yes]
         value_bet = "Yes" if proba[1] * 1.8 > 1 else "No"
         stake = kelly_criterion(proba[1], 1.8)
         return {
@@ -146,9 +150,8 @@ def predict_market(market, features):
             "recommended_stake": round(stake, 3)
         }
     else:
-        # multiclass for 1X2
         outcomes = ["Home Win", "Draw", "Away Win"]
-        odds = [2.1, 3.2, 3.3]  # Ideally fetch from real odds input
+        odds = [2.1, 3.2, 3.3]  # Placeholder odds
         value_bets = [outcomes[i] for i in range(3) if proba[i] * odds[i] > 1]
         stakes = [round(kelly_criterion(proba[i], odds[i]), 3) for i in range(3)]
         return {
@@ -163,11 +166,14 @@ def predict_market(market, features):
 scheduler = BackgroundScheduler()
 
 def scheduled_data_refresh():
-    logging.info("Scheduled background task running: refreshing cached data or retraining models...")
-    # Implement actual refresh or retrain here
+    logging.info("Scheduled background task: refreshing cached data or retraining models...")
+    # TODO: implement refresh or retrain logic
 
 scheduler.add_job(scheduled_data_refresh, 'interval', minutes=60)
 scheduler.start()
+
+# Ensure scheduler shuts down on app exit
+atexit.register(lambda: scheduler.shutdown())
 
 # --- API Models for Swagger ---
 
@@ -222,6 +228,7 @@ def predict():
     market = request.args.get("market")
     home_avg = request.args.get("home_avg", type=float)
     away_avg = request.args.get("away_avg", type=float)
+
     if not market or home_avg is None or away_avg is None:
         return jsonify({"error": "Missing required parameters: market, home_avg, away_avg"}), 400
 
@@ -242,60 +249,39 @@ def backtest():
     bets = data.get("bets")  # list of {match_id, predicted_outcome, odds, actual_outcome}
 
     if not market or not bets:
-        return jsonify({"error": "Missing 'market' or 'bets' in request body"}), 400
+        return jsonify({"error": "Missing required fields: market, bets"}), 400
 
-    # Simulate backtesting
-    total_stake = 0
-    total_return = 0
+    total_staked = 0
+    total_returned = 0
     wins = 0
+
     for bet in bets:
         stake = bet.get("stake", 1)
-        total_stake += stake
+        odds = bet.get("odds")
         predicted = bet.get("predicted_outcome")
         actual = bet.get("actual_outcome")
-        odds = bet.get("odds", 1)
+        total_staked += stake
         if predicted == actual:
-            total_return += stake * odds
             wins += 1
+            total_returned += stake * odds
 
-    roi = ((total_return - total_stake) / total_stake) if total_stake > 0 else 0
-    win_rate = (wins / len(bets)) if bets else 0
+    roi = ((total_returned - total_staked) / total_staked) * 100 if total_staked > 0 else 0
+    win_rate = (wins / len(bets)) * 100 if bets else 0
 
     return jsonify({
         "market": market,
         "total_bets": len(bets),
         "wins": wins,
-        "win_rate": round(win_rate, 3),
-        "roi": round(roi, 3),
-        "total_stake": total_stake,
-        "total_return": round(total_return, 3)
+        "win_rate_percent": round(win_rate, 2),
+        "roi_percent": round(roi, 2),
+        "total_staked": total_staked,
+        "total_returned": total_returned
     })
 
-# --- API Namespace for Swagger ---
-
-ns = api.namespace('football', description='Football prediction operations')
-
-@ns.route('/predict')
-class FootballPredict(Resource):
-    @api.expect(prediction_model)
-    def post(self):
-        json_data = api.payload
-        market = json_data.get("market")
-        home_avg = json_data.get("home_avg")
-        away_avg = json_data.get("away_avg")
-
-        if not market or home_avg is None or away_avg is None:
-            return {"error": "Missing parameters"}, 400
-
-        try:
-            features = [home_avg, away_avg]
-            result = predict_market(market, features)
-            return result
-        except Exception as e:
-            return {"error": str(e)}, 500
-
-# --- Run ---
+# --- Run app (for dev only; in production use gunicorn) ---
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+# === Deployment tip: run with gunicorn for production
+# gunicorn -w 4 -b 0.0.0.0:5000 app:app
