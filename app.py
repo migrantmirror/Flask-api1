@@ -32,7 +32,7 @@ api = Api(
 )
 
 # Rate limiter setup: limit requests per IP
-limiter = Limiter(app, key_func=get_remote_address, default_limits=["100 per hour"])
+limiter = Limiter(key_func=get_remote_address, app=app, default_limits=["100 per hour"])
 
 # Cache config (in-memory simple cache)
 cache = Cache(app, config={"CACHE_TYPE": "SimpleCache", "CACHE_DEFAULT_TIMEOUT": 300})
