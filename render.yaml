@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: goalstats-api
+    name: flask.api1
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn main.api:app.py --bind 0.0.0.0:$PORT
+    startCommand: gunicorn app.py --bind 0.0.0.0:$PORT
     envVars:
       - key: FOOTBALL_API_TOKEN
         value: YOUR_TOKEN
