@@ -82,7 +82,7 @@ def team_stats():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/correct_score")
-@limit(["50/hour"])
+@limiter.limit("50/hour")
 def correct_score():
     try:
         home_avg = float(request.args.get("home_avg",1.4))
