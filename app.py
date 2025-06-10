@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_caching import Cache
-from flask_restx import Api, Resource, fields
 from apscheduler.schedulers.background import BackgroundScheduler
 import joblib, os, math, logging, atexit
 from dotenv import load_dotenv
@@ -17,7 +16,6 @@ logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 CORS(app)
-api = Api(app, version="1.0", title="GoalStats API", doc="/docs")
 
 # Initialize Limiter without app here
 limiter = Limiter(
@@ -69,7 +67,7 @@ def trainAndPredict(market, features):
     odds = 2.0
     return {"proba": proba.tolist(), "value": proba[1]*odds>1}
 
-# --- New Endpoints ---
+# --- Endpoints ---
 
 @app.route("/api/live_matches")
 def live_matches():
@@ -102,7 +100,7 @@ def correct_score():
     top5 = dict(sorted(grid.items(), key=lambda x:-x[1])[:5])
     return jsonify({"probabilities": top5})
 
-# --- Existing endpoints omitted for brevity ---
+# --- Add other endpoints here as needed ---
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
