@@ -19,13 +19,15 @@ app = Flask(__name__)
 CORS(app)
 api = Api(app, version="1.0", title="GoalStats API", doc="/docs")
 
-# Configure Flask-Limiter with Redis backend for rate limit storage
+# Initialize Limiter without app here
 limiter = Limiter(
-    app,
     key_func=get_remote_address,
     default_limits=["100/hour"],
-    storage_uri="redis://localhost:6379"  # Update this if Redis is remote or uses password
+    storage_uri="memory://"
 )
+
+# Attach Limiter to app explicitly
+limiter.init_app(app)
 
 cache = Cache(app, config={"CACHE_TYPE": "SimpleCache", "CACHE_DEFAULT_TIMEOUT": 300})
 
