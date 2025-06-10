@@ -1,0 +1,249 @@
+[33mcommit f24383047dc89d73e8664088999ebee7e90cabd0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 07:22:51 2025 +0400
+
+    Update app.py
+
+[33mcommit 974a85c10100536b44836fbe6c19d6575acd1ca2[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 06:31:07 2025 +0400
+
+    Update app.py
+
+[33mcommit 461475aeed6b27f6d02ae5ec70f78e75c6e55092[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 06:27:54 2025 +0400
+
+    Update app.py
+
+[33mcommit 9c4a9f2eccec42b814adcd931e751957ded1d611[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 06:22:44 2025 +0400
+
+    Update app.py
+
+[33mcommit 07ca353f7e383707f88822c87420ae5552045bb8[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 06:16:50 2025 +0400
+
+    Update app.py
+
+[33mcommit c4711e3886574e27e78f33cd78c77780de85b6d9[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 05:56:40 2025 +0400
+
+    Update app.py
+
+[33mcommit 96efcba2e1c4b6b1b73f2e4b5267d20a8916b478[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 05:53:06 2025 +0400
+
+    Update app.py
+
+[33mcommit 956f4d839d7f34734cf96b257e7da239c0d495b1[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 05:40:16 2025 +0400
+
+    Update requirements.txt
+
+[33mcommit d1761952a808f2d1c7b4efffb11be11e4acb150f[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 05:31:06 2025 +0400
+
+    Update app.py
+
+[33mcommit 2682b0cce8d54e5bee70c19ec9513f1141aff141[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 05:10:05 2025 +0400
+
+    Update app.py
+
+[33mcommit 91aa9149c3fe60217ae907ae9c29634c05f03f29[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:50:08 2025 +0400
+
+    Update render.yaml
+
+[33mcommit e7a202eb9a8eeea3652139dff6c0b01ebb8489f7[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:41:23 2025 +0400
+
+    Update render.yaml
+
+[33mcommit e0c38464d5e9398f424e93d745652af8439b2d7f[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:36:39 2025 +0400
+
+    Update render.yaml
+
+[33mcommit 06798a0d49e08149b5e3e13926e164079d984799[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:32:30 2025 +0400
+
+    Update render.yaml
+
+[33mcommit 79bb3958fc67183a1a4c1d7c3b5b4c7d083620df[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:26:40 2025 +0400
+
+    Rename goalstats_api_fullstack to app.py
+
+[33mcommit 7ff3e4b0e6fdd48d036f8ba31369374cbb195b0b[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:25:21 2025 +0400
+
+    Update render.yaml
+
+[33mcommit 33aaf18913738dcadcf91920177a8acd6fb410bf[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:19:46 2025 +0400
+
+    Update render.yaml
+
+[33mcommit 3709adaa3696b0f921bfed1ea1d55c8c70b80fff[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:18:56 2025 +0400
+
+    Rename goalstats-api-fullstack to goalstats_api_fullstack
+
+[33mcommit aeef080bb062367565b67672d41f6e40d25cf010[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:14:44 2025 +0400
+
+    Rename goalstats-api-fullstack.py to goalstats-api-fullstack
+
+[33mcommit d3fcee0de1b0e86ac86da46db40ef8f8ab12483d[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:14:11 2025 +0400
+
+    Update render.yaml
+
+[33mcommit f66e8861077090fb73aefdd212e7690a3e4d0357[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 04:03:31 2025 +0400
+
+    Update requirements.txt
+
+[33mcommit 06c5a5b56437838069ee4443bcf455c8ac2c1ba1[m
+Merge: 7ffd20e 8c3d65a
+Author: amaram4real <placidchambers@gmail.com>
+Date:   Tue Jun 10 03:49:34 2025 +0400
+
+    Merge branch 'main' of github.com:migrantmirror/goalstats-api
+
+[33mcommit 8c3d65ae0922413aee0b4ba5e5dc3352174691a6[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 03:22:45 2025 +0400
+
+    Update requirements.txt
+
+[33mcommit 7ffd20e5ff5db2cf9a3dd76e6b93c5beff3d46e9[m
+Author: amaram4real <placidchambers@gmail.com>
+Date:   Tue Jun 10 03:16:56 2025 +0400
+
+    Resolved requirements.txt and updated dependencies
+
+[33mcommit f4d8a20d1b0c085b7f833152d56c482cf189b2b8[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 03:09:39 2025 +0400
+
+    Update requirements.txt
+
+[33mcommit 65c89619010afa905421d25d969be8b65f1e8992[m
+Author: amaram4real <placidchambers@gmail.com>
+Date:   Tue Jun 10 02:56:25 2025 +0400
+
+    Update requirements.txt
+    Updaterements.txt
+    
+    erequirements.txt
+
+[33mcommit d04c7e4e092abbc89d056969bae13e3cb6ce72a6[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 02:48:32 2025 +0400
+
+    Update requirements.txt
+
+[33mcommit 490d46e9cc07c2db990b7ad2cd79fed0a199fcc7[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 02:47:07 2025 +0400
+
+    Update render.yaml
+
+[33mcommit 56c01d8fd0a6d4a923e4c5865ac8e811d021a8b1[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 02:41:58 2025 +0400
+
+    Update render.yaml
+
+[33mcommit e8ab8019e002e34cf8918382178e39b2390316ce[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 02:29:49 2025 +0400
+
+    Update goalstats-api-fullstack.py
+
+[33mcommit 00c58a7ff9c552880b0f5a934c95b1455690974b[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 02:15:03 2025 +0400
+
+    Update goalstats-api-fullstack.py
+
+[33mcommit ef5deb20d208e995cacc9c37528a427f64f2d223[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 02:07:08 2025 +0400
+
+    Update render.yaml
+
+[33mcommit fd3f6f4c5a128e8eb76f2d29a3be7e24cfedcf7e[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 02:05:18 2025 +0400
+
+    Rename goalstats-api-fullstack to goalstats-api-fullstack.py
+
+[33mcommit 9454d16539b5de5cb6feeeafc0060220d69bc925[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Tue Jun 10 00:26:44 2025 +0400
+
+    Update goalstats-api-fullstack
+
+[33mcommit 4468f5834824cb6ccd6fb6a2562bdd246e3d71bc[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Mon Jun 9 23:46:23 2025 +0400
+
+    Update render.yaml
+
+[33mcommit df6c647dbc8c172daf1d2a7821880ef8d1106f89[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Mon Jun 9 23:42:52 2025 +0400
+
+    Update render.yaml
+
+[33mcommit b4e2c1cc4cc500aee27e2526873cca78a292d268[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Mon Jun 9 23:35:36 2025 +0400
+
+    Update render.yaml
+
+[33mcommit 57e7aef334f6baaa745e08a90f088cc008c9c6f2[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Mon Jun 9 23:30:57 2025 +0400
+
+    Create .gitignore
+
+[33mcommit 76a4040e9e3a08166de5d21639073542dba5d391[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Mon Jun 9 23:27:47 2025 +0400
+
+    Create requirements.txt
+
+[33mcommit 3a70c60a39ea76d8040d465b6adba6e875045cb2[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Mon Jun 9 23:26:57 2025 +0400
+
+    Create render.yaml
+
+[33mcommit 509be26b3bf0fc7a627a0adb9508b7b165ad3ff5[m
+Author: migrantmirror <onyekachiebosi@gmail.com>
+Date:   Mon Jun 9 23:25:57 2025 +0400
+
+    Create goalstats-api-fullstack
