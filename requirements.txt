@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-flask
-python-dotenv
-requests
-gunicorn
-numpy
-=======
-=======
->>>>>>> 8c3d65ae0922413aee0b4ba5e5dc3352174691a6
 blinker==1.9.0
 certifi==2025.4.26
 charset-normalizer==3.4.2
