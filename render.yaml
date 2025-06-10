@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn goalstats-api-fullstack.py:app --bind 0.0.0.0:$PORT
+    startCommand: gunicorn goalstats-api-fullstack:app --bind 0.0.0.0:$PORT
     envVars:
       - key: FOOTBALL_API_TOKEN
         value: YOUR_TOKEN
